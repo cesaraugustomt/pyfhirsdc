@@ -7,6 +7,7 @@ from pyfhirsdc.services.processInputFile import process_input_file, process_data
 from pyfhirsdc.services.processLibraries import process_libraries
 from pyfhirsdc.services.uploadFiles import upload_files
 from pyfhirsdc.services.processConf import updateBuildNumber
+from pyfhirsdc.services.generateInteropMatrix import process_interop_matrix
 
 def print_help():
     print('-c / --conf config_file_path')
@@ -14,6 +15,7 @@ def print_help():
     print('-h / --help to generate this message')
     print('-b to bundle the fhir ressource int the output path')
     print('-l to build the library with cql in base64')
+    print('-m / --matrix to generate the interoperability matrix (xlsx/md) and the L3 ConceptMap + example resources from the data dictionary, without requiring the pd./q. input schema')
     print('--anthro to generate the antro code system from tsv files (files can be found here https://github.com/WorldHealthOrganization/anthro/tree/master/data-raw/growthstandards)')
 
 
@@ -42,10 +44,11 @@ if __name__ == "__main__":
     bundle = False
     output = False
     library = False
+    matrix = False
     #anthro = False
     upload = False
     try:
-      opts, args = getopt.getopt(sys.argv[1:],"hlobuc:",["conf=","help","anthro"])
+      opts, args = getopt.getopt(sys.argv[1:],"hlobumc:",["conf=","help","anthro","matrix"])
     except getopt.GetoptError:
         print_help()
         sys.exit(2)
@@ -65,6 +68,8 @@ if __name__ == "__main__":
             library = True
         elif  opt == "-u":
             upload = True 
+        elif opt in ("-m", "--matrix"):
+            matrix = True
     #if anthro:
     #    generate_anthro_codesystems(conf)
 
@@ -94,4 +99,9 @@ if __name__ == "__main__":
         write_bundle(conf)
     if upload:
         upload_files(conf, bundle)
-        
+    if matrix:
+        # Extensão adicionada para este trabalho: gera a matriz de interoperabilidade
+        # e recursos FHIR L3 (ConceptMap + exemplos) direto do data dictionary L2,
+        # sem exigir o schema pd./q. do pipeline principal (-o).
+        logger.info("Process interoperability matrix")
+        process_interop_matrix(conf)

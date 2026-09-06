@@ -159,3 +159,8 @@ conf.json
 conf-*.json
 .~*
 build.txt
+# Artefatos locais de desenvolvimento desta extensão (matriz de interoperabilidade)
+*.bak-*
+*.diff
+.DS_Store
+_to_delete/

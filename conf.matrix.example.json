@@ -1,0 +1,15 @@
+{
+    "processor": {
+        "inputFile": "/caminho/para/seu/DAK/L2/core_data_dictionary.xlsx",
+        "data_dictionary_file": "/caminho/para/seu/DAK/L2/core_data_dictionary.xlsx",
+        "data_dictionary_exclude_workSheets": ["cover", "read me", "references"],
+        "decision_support_logic_file": "/caminho/para/seu/DAK/L2/decision-support_logic.xlsx",
+        "outputPath": "/caminho/para/seu/DAK/L2",
+        "build": 0,
+        "environment": "dev"
+    },
+    "fhir": {
+        "canonicalBase": "http://seu-mini-dak.example.org/fhir/",
+        "lib_version": "0.1.0"
+    }
+}
